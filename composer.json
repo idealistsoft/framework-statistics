@@ -1,0 +1,25 @@
+{
+	"name": "idealistsoft/framework-statistics",
+	"version": "1.0",
+	"description": "Admin statistics module for Idealist Framework",
+	"type": "library",
+	"keywords": ["idealist","framework","statistics"],
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "jaredtking",
+			"email": "j@jaredtking.com",
+			"homepage": "http://jaredtking.com"
+		}
+	],
+	"support": {
+		"issues": "https://github.com/idealistsoft/framework-statistics/issues",
+		"source": "https://github.com/idealistsoft/framework-statistics"
+	},
+    "autoload": {
+        "psr-0": {"\\": "src/"}
+    },
+	"require": {
+		"php": ">=5.4.0"
+	}
+}
