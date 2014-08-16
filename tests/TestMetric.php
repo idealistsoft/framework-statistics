@@ -1,8 +1,8 @@
 <?php
 
-namespace app\statistics\tests;
+use \app\statistics\metrics\AbstractStat;
 
-class Test2Metric extends \app\statistics\metrics\AbstractStat
+class TestMetric extends AbstractStat
 {
 	function name()
 	{
@@ -11,12 +11,12 @@ class Test2Metric extends \app\statistics\metrics\AbstractStat
 
 	function granularity()
 	{
-		return STATISTIC_GRANULARITY_MONTH;
+		return STATISTIC_GRANULARITY_DAY;
 	}
 
 	function type()
 	{
-		return STATISTIC_TYPE_FLOW;
+		return STATISTIC_TYPE_VOLUME;
 	}
 
 	function hasChart()
@@ -37,8 +37,8 @@ class Test2Metric extends \app\statistics\metrics\AbstractStat
 	function value( $start, $end )
 	{
 		if( $end < time() )
-			return 123;
+			return 1023;
 
-		return 100;
+		return 1000;
 	}
 }

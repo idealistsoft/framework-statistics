@@ -5,14 +5,18 @@ use infuse\Database;
 use app\users\models\User;
 use app\statistics\models\Statistic;
 use app\statistics\libs\StatisticsHelper;
-use app\statistics\tests\TestMetric;
-use app\statistics\tests\Test2Metric;
 
 class StatisticsTest extends \PHPUnit_Framework_TestCase
 {
 	var $s;
 	var $s2;
 	var $dbTouched;
+
+	static function setUpBeforeClass()
+	{
+		include 'TestMetric.php';
+		include 'Test2Metric.php';
+	}
 
 	function setUp()
 	{
