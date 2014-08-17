@@ -19,7 +19,6 @@ use app\statistics\libs\StatisticsHelper;
 class Controller
 {
 	public static $properties = [
-		'hasAdminView' => true,
 		'models' => [
 			'Statistic' ],
 		'defaultHistoryMetric' => 'users.numUsers',
@@ -32,6 +31,8 @@ class Controller
 			'get /statistics/backfill' => 'backfill'
 		]
 	];
+
+	public static $hasAdminView;
 
 	public static $metricOrdering = [
 		'Signup Funnel' => [
