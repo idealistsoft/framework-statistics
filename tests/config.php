@@ -36,7 +36,7 @@ return  [
       'SiteSession',
       'SiteStatus',
       'SiteVersion',
-      'UsersMetric'
+      'Users'
     ]
   ]
 ];
