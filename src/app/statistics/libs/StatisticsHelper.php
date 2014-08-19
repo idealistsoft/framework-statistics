@@ -26,9 +26,10 @@ class StatisticsHelper
 	{
 		$return = [];
 
-		foreach( glob( INFUSE_APP_DIR . '/statistics/metrics/*Metric.php' ) as $filename )
+		$metrics = (array)$app[ 'config' ]->get( 'statistics.metrics' );
+		foreach( $metrics as $metric )
 		{
-			$className = '\\app\\statistics\\metrics\\' . str_replace( '.php', '', basename( $filename ) );
+			$className = '\\app\\statistics\\metrics\\' . $metric . 'Metric';
 			$return[] = new $className( $app );
 		}
 

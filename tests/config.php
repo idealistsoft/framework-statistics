@@ -25,4 +25,18 @@ return  [
     'adapter' => 'database',
     'lifetime' => 86400
   ],
+  'statistics' => [
+    'metrics' => [
+      'DatabaseSize',
+      'DatabaseTables',
+      'DatabaseVersion',
+      'PhpVersion',
+      'SignupsToday',
+      'SiteMode',
+      'SiteSession',
+      'SiteStatus',
+      'SiteVersion',
+      'UsersMetric'
+    ]
+  ]
 ];
