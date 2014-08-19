@@ -37,6 +37,26 @@ return  [
       'SiteStatus',
       'SiteVersion',
       'Users'
+    ],
+    'dashboard' => [
+      'Signup Funnel' => [
+        'SignupsToday'
+      ],
+      'Usage' => [
+        'Users'
+      ],
+      'Site' => [
+        'SiteStatus',
+        'SiteVersion',
+        'PhpVersion',
+        'SiteMode',
+        'SiteSession',
+      ],
+      'Database' => [
+        'DatabaseSize',
+        'DatabaseVersion',
+        'DatabaseTables'
+      ]
     ]
   ]
 ];

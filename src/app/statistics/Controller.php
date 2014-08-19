@@ -34,27 +34,6 @@ class Controller
 
 	public static $hasAdminView;
 
-	public static $metricOrdering = [
-		'Signup Funnel' => [
-			'SignupsToday'
-		],
-		'Usage' => [
-			'Users'
-		],
-		'Site' => [
-			'SiteStatus',
-			'SiteVersion',
-			'PhpVersion',
-			'SiteMode',
-			'SiteSession',
-		],
-		'Database' => [
-			'DatabaseSize',
-			'DatabaseVersion',
-			'DatabaseTables'
-		]
-	];
-
 	private $app;
 
 	function __construct( App $app )
@@ -75,7 +54,8 @@ class Controller
 		$start = -7;
 		$end = 0;
 
-		foreach( self::$metricOrdering as $section => $metricClasses )
+		$dashboard = (array)$this->app[ 'config' ]->get( 'statistics.dashboard' );
+		foreach( $dashboard as $section => $metricClasses )
 		{
 			foreach( $metricClasses as $className )
 			{
