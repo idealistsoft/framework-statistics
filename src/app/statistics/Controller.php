@@ -35,10 +35,12 @@ class Controller
 	public static $hasAdminView;
 
 	private $app;
+	private $viewsDir;
 
 	function __construct( App $app )
 	{
 		$this->app = $app;
+		$this->viewsDir = __DIR__ . '/views/';
 	}
 
 	function adminHome( $req, $res )
@@ -76,13 +78,12 @@ class Controller
 			}
 		}
 		
-		$res->render( 'admin/index', [
+		$res->render( $this->viewsDir . 'admin/index', [
 			'metrics' => $metrics,
 			'chartNames' => array_keys( $chartData ),
 			'chartData' => $chartData,
 			'chartGranularities' => $chartGranularities,
 			'chartLoadedIntervals' => $chartLoadedIntervals,
-			'adminViewsDir' => INFUSE_APP_DIR . '/admin/views',
 			'title' => 'Statistics'
 		] );
 	}
