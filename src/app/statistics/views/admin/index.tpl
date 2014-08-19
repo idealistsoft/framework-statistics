@@ -125,7 +125,7 @@ h3 {
 	font-weight: bold;
 }
 </style>
-<script type="text/javascript" src="/js/d3.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js"></script>
 <script type="text/javascript">
 {literal}
 	function getDate(d) {
