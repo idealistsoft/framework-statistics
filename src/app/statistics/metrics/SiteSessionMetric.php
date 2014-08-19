@@ -41,6 +41,6 @@ class SiteSessionMetric extends AbstractStat
 
 	function value( $start, $end )
 	{
-		return $this->app[ 'config' ]->get( 'session.adapter' );
+		return $this->app[ 'config' ]->get( 'sessions.adapter' );
 	}
 }
