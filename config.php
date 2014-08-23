@@ -1,6 +1,6 @@
 <?php
 
-// WARNING this config file is only used for the tests
+/* This configuration is used to run the tests */
 
 return  [
   'site' => [
