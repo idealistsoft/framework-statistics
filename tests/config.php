@@ -15,7 +15,7 @@ return  [
   ],
   'database' => [
     'type' => 'mysql',
-    'user' => 'travis',
+    'user' => 'root',
     'password' => '',
     'host' => '127.0.0.1',
     'name' => 'mydb',

@@ -10,14 +10,10 @@ class Statistic extends Model
 		'metric' => [
 			'type' => 'id',
 			'auto_increment' => false,
-			'db_type' => 'varchar',
-			'length' => 100,
 			'mutable' => true ],
 		'day' => [
 			'type' => 'id',
 			'auto_increment' => false,
-			'db_type' => 'char',
-			'length' => 10, // YYYY-MM-DD
 			'mutable' => true ],
 		'val' => [
 			'type' => 'text' ],

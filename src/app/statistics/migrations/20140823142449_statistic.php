@@ -14,8 +14,9 @@ class Statistic extends AbstractMigration
             $table = $this->table( 'Statistics', [ 'id' => false, 'primary_key' => [ 'metric', 'day' ] ] );
             $table->addColumn( 'metric', 'string', [ 'length' => 100 ] )
                   ->addColumn( 'day', 'string', [ 'length' => 10 ] )
-                  ->addColumn( 'val', 'text' )
-                  ->addColumn( 'ts', 'integer');
+                  ->addColumn( 'val', 'string' )
+                  ->addColumn( 'ts', 'integer')
+                  ->create();
         }
     }
     
