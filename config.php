@@ -1,5 +1,7 @@
 <?php
 
+// WARNING this config file is only used for the tests
+
 return  [
   'site' => [
     'salt' => 'replacewithrandomstring',
@@ -7,10 +9,6 @@ return  [
   'modules' => [
     'middleware' => [
       'auth'
-    ],
-    'all' => [
-    	'auth',
-      'statistics'
     ]
   ],
   'database' => [
