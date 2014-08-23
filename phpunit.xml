@@ -1,4 +1,8 @@
 <phpunit colors="true">
+  <php>
+    <const name="INFUSE_BASE_DIR">.</const>
+  </php>
+  
   <listeners>
     <listener file="vendor/autoload.php"></listener>
     <listener class="TestBootstrap"></listener>
