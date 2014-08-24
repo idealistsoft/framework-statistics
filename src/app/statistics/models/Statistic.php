@@ -8,15 +8,11 @@ class Statistic extends Model
 {
 	static $properties = [
 		'metric' => [
-			'type' => 'id',
-			'auto_increment' => false,
-			'mutable' => true ],
+			'type' => 'string' ],
 		'day' => [
-			'type' => 'id',
-			'auto_increment' => false,
-			'mutable' => true ],
+			'type' => 'number' ],
 		'val' => [
-			'type' => 'text' ],
+			'type' => 'string' ],
 		'ts' => [
 			'type' => 'date' ]
 	];
