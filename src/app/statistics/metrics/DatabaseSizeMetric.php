@@ -8,73 +8,73 @@ use app\statistics\models\Statistic;
 
 class DatabaseSizeMetric extends AbstractStat
 {
-	function name()
-	{
-		return 'Database Size';
-	}
+    public function name()
+    {
+        return 'Database Size';
+    }
 
-	function granularity()
-	{
-		return STATISTIC_GRANULARITY_DAY;
-	}
+    public function granularity()
+    {
+        return STATISTIC_GRANULARITY_DAY;
+    }
 
-	function type()
-	{
-		return STATISTIC_TYPE_VOLUME;
-	}
+    public function type()
+    {
+        return STATISTIC_TYPE_VOLUME;
+    }
 
-	function span()
-	{
-		return 12;
-	}
+    public function span()
+    {
+        return 12;
+    }
 
-	function hasChart()
-	{
-		return true;
-	}
+    public function hasChart()
+    {
+        return true;
+    }
 
-	function hasDelta()
-	{
-		return true;
-	}
+    public function hasDelta()
+    {
+        return true;
+    }
 
-	function shouldBeCaptured()
-	{
-		return true;
-	}
+    public function shouldBeCaptured()
+    {
+        return true;
+    }
 
-	function suffix()
-	{
-		return 'B';
-	}
+    public function suffix()
+    {
+        return 'B';
+    }
 
-	function value( $start, $end )
-	{
-		// only calculate metric as of right now
-		$query = Database::sql("SHOW table STATUS");
-		
-		$status = $query->fetchAll( \PDO::FETCH_ASSOC );
-		
-		$dbsize = 0;
-		// Calculate DB size by adding table size + index size:
-		foreach( $status as $row )
-			$dbsize += $row['Data_length'] + $row['Index_length'];
+    public function value($start, $end)
+    {
+        // only calculate metric as of right now
+        $query = Database::sql("SHOW table STATUS");
 
-		return $dbsize;
-	}
+        $status = $query->fetchAll( \PDO::FETCH_ASSOC );
 
-	function computeDelta()
-	{
-		// get metric from yesterday
-		$yesterdaysDate = date( 'Y-m-d', strtotime( 'yesterday' ) );
+        $dbsize = 0;
+        // Calculate DB size by adding table size + index size:
+        foreach( $status as $row )
+            $dbsize += $row['Data_length'] + $row['Index_length'];
 
-		$stat = Statistic::findOne( [
-			'where' => [
-				'metric' => $this->key(),
-				'day' => $yesterdaysDate ] ] );
+        return $dbsize;
+    }
 
-		$previous = ($stat) ? $stat->val : 0;
+    public function computeDelta()
+    {
+        // get metric from yesterday
+        $yesterdaysDate = date( 'Y-m-d', strtotime( 'yesterday' ) );
 
-		return $this->computeValue() - $previous;
-	}
+        $stat = Statistic::findOne( [
+            'where' => [
+                'metric' => $this->key(),
+                'day' => $yesterdaysDate ] ] );
+
+        $previous = ($stat) ? $stat->val : 0;
+
+        return $this->computeValue() - $previous;
+    }
 }

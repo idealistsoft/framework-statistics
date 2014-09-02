@@ -2,156 +2,154 @@
 
 use infuse\Database;
 
-use app\users\models\User;
 use app\statistics\models\Statistic;
 use app\statistics\libs\StatisticsHelper;
 
 class StatisticsTest extends \PHPUnit_Framework_TestCase
 {
-	var $s;
-	var $s2;
-	var $dbTouched;
+    public $s;
+    public $s2;
+    public $dbTouched;
 
-	static function setUpBeforeClass()
-	{
-		include 'TestMetric.php';
-		include 'Test2Metric.php';
-	}
+    public static function setUpBeforeClass()
+    {
+        include 'TestMetric.php';
+        include 'Test2Metric.php';
+    }
 
-	function setUp()
-	{
-		$this->s = new TestMetric( TestBootstrap::app() );
-		$this->s2 = new Test2Metric( TestBootstrap::app() );
-	}
+    public function setUp()
+    {
+        $this->s = new TestMetric( TestBootstrap::app() );
+        $this->s2 = new Test2Metric( TestBootstrap::app() );
+    }
 
-	function tearDown()
-	{
-		if( $this->dbTouched )
-		{
-			Database::delete( 'Statistics', [ 'metric' => $this->s->key() ] );
+    public function tearDown()
+    {
+        if ($this->dbTouched) {
+            Database::delete( 'Statistics', [ 'metric' => $this->s->key() ] );
 
-			Database::delete( 'Statistics', [ 'metric' => $this->s2->key() ] );
-		}
-	}
+            Database::delete( 'Statistics', [ 'metric' => $this->s2->key() ] );
+        }
+    }
 
-	function testPrefix()
-	{
-		$this->assertEquals( '', $this->s->prefix() );
-	}
+    public function testPrefix()
+    {
+        $this->assertEquals( '', $this->s->prefix() );
+    }
 
-	function testSuffix()
-	{
-		$this->assertEquals( '', $this->s->suffix() );
-	}
+    public function testSuffix()
+    {
+        $this->assertEquals( '', $this->s->suffix() );
+    }
 
-	function testSpan()
-	{
-		$this->assertGreaterThan( 0, $this->s->span() );
-	}
+    public function testSpan()
+    {
+        $this->assertGreaterThan( 0, $this->s->span() );
+    }
 
-	function testKey()
-	{
-		$this->assertEquals( 'test-statistic', $this->s->key() );
-	}
+    public function testKey()
+    {
+        $this->assertEquals( 'test-statistic', $this->s->key() );
+    }
 
-	function testComputeValue()
-	{
-		$period = $this->s->nthPreviousPeriod();
-		$lastPeriod = $this->s->nthPreviousPeriod( 1 );
+    public function testComputeValue()
+    {
+        $period = $this->s->nthPreviousPeriod();
+        $lastPeriod = $this->s->nthPreviousPeriod( 1 );
 
-		for( $i = 0; $i < 10; $i++ )
-			$this->assertEquals( 1000, $this->s->computeValue( $period ) );
+        for( $i = 0; $i < 10; $i++ )
+            $this->assertEquals( 1000, $this->s->computeValue( $period ) );
 
-		for( $i = 0; $i < 10; $i++ )
-			$this->assertEquals( 1023, $this->s->computeValue( $lastPeriod ) );
-	}
+        for( $i = 0; $i < 10; $i++ )
+            $this->assertEquals( 1023, $this->s->computeValue( $lastPeriod ) );
+    }
 
-	function testComputeDelta()
-	{
-		$this->assertEquals( -23, $this->s->computeDelta() );
-	}
+    public function testComputeDelta()
+    {
+        $this->assertEquals( -23, $this->s->computeDelta() );
+    }
 
-	function testValues()
-	{
-		$this->dbTouched = true;
+    public function testValues()
+    {
+        $this->dbTouched = true;
 
-		// test volume
-		$values = $this->s->values();
-		// TODO
+        // test volume
+        $values = $this->s->values();
+        // TODO
 
-		// test flow
-		$values = $this->s2->values();
-		// TODO
-	}
+        // test flow
+        $values = $this->s2->values();
+        // TODO
+    }
 
-	function testNeedsToBeCaptured()
-	{
-		$this->assertTrue( $this->s->needsToBeCaptured() );
-	}
+    public function testNeedsToBeCaptured()
+    {
+        $this->assertTrue( $this->s->needsToBeCaptured() );
+    }
 
-	/**
+    /**
 	 * @depends testNeedsToBeCaptured
 	 */
-	function testCapture()
-	{
-		$this->dbTouched = true;
+    public function testCapture()
+    {
+        $this->dbTouched = true;
 
-		$this->assertTrue( $this->s->savePeriod() );
+        $this->assertTrue( $this->s->savePeriod() );
 
-		$this->assertFalse( $this->s->needsToBeCaptured() );
-	}
+        $this->assertFalse( $this->s->needsToBeCaptured() );
+    }
 
-	function testToArray()
-	{
-		$expected = [
-			'name' => 'Test Statistic',
-			'key' => 'test-statistic',
-			'granularity' => STATISTIC_GRANULARITY_DAY,
-			'prefix' => '',
-			'suffix' => '',
-			'hasChart' => true,
-			'span' => 4,
-			'value' => 1000,
-			'abbreviated_value' => '1K',
-			'delta' => -23,
-			'abbreviated_delta' => -23
-		];
+    public function testToArray()
+    {
+        $expected = [
+            'name' => 'Test Statistic',
+            'key' => 'test-statistic',
+            'granularity' => STATISTIC_GRANULARITY_DAY,
+            'prefix' => '',
+            'suffix' => '',
+            'hasChart' => true,
+            'span' => 4,
+            'value' => 1000,
+            'abbreviated_value' => '1K',
+            'delta' => -23,
+            'abbreviated_delta' => -23
+        ];
 
-		$this->assertEquals( $expected, $this->s->toArray() );
-	}
+        $this->assertEquals( $expected, $this->s->toArray() );
+    }
 
-	function testNthPreviousPeriod()
-	{
-		$period = $this->s->nthPreviousPeriod();
-		$period1 = $this->s->nthPreviousPeriod( 1 );
-		$period2 = $this->s->nthPreviousPeriod( 2 );
+    public function testNthPreviousPeriod()
+    {
+        $period = $this->s->nthPreviousPeriod();
+        $period1 = $this->s->nthPreviousPeriod( 1 );
+        $period2 = $this->s->nthPreviousPeriod( 2 );
 
-		$this->assertTrue( $period != $period1 );
-		$this->assertTrue( $period1 != $period2 );
-	}
+        $this->assertTrue( $period != $period1 );
+        $this->assertTrue( $period1 != $period2 );
+    }
 
-	function testInterval()
-	{
-		$this->assertEquals( 'day', $this->s->interval( STATISTIC_GRANULARITY_DAY ) );
-		$this->assertEquals( 'week', $this->s->interval( STATISTIC_GRANULARITY_WEEK ) );
-		$this->assertEquals( 'month', $this->s->interval( STATISTIC_GRANULARITY_MONTH ) );
-		$this->assertEquals( 'year', $this->s->interval( STATISTIC_GRANULARITY_YEAR ) );
-	}
+    public function testInterval()
+    {
+        $this->assertEquals( 'day', $this->s->interval( STATISTIC_GRANULARITY_DAY ) );
+        $this->assertEquals( 'week', $this->s->interval( STATISTIC_GRANULARITY_WEEK ) );
+        $this->assertEquals( 'month', $this->s->interval( STATISTIC_GRANULARITY_MONTH ) );
+        $this->assertEquals( 'year', $this->s->interval( STATISTIC_GRANULARITY_YEAR ) );
+    }
 
-	function testMetricClasses()
-	{
-		$classes = StatisticsHelper::metricClasses( TestBootstrap::app() );
+    public function testMetricClasses()
+    {
+        $classes = StatisticsHelper::metricClasses( TestBootstrap::app() );
 
-		$this->assertGreaterThan( 2, count( $classes ) );
+        $this->assertGreaterThan( 2, count( $classes ) );
 
-		foreach( $classes as $class )
-			$this->assertInstanceOf( '\\app\\statistics\\metrics\\AbstractStat', $class );
-	}
+        foreach( $classes as $class )
+            $this->assertInstanceOf( '\\app\\statistics\\metrics\\AbstractStat', $class );
+    }
 
-	function testCaptureMetrics()
-	{
-		$this->assertTrue( StatisticsHelper::captureMetrics( TestBootstrap::app() ) );
+    public function testCaptureMetrics()
+    {
+        $this->assertTrue( StatisticsHelper::captureMetrics( TestBootstrap::app() ) );
 
-		$this->assertGreaterThan( 0, Statistic::totalRecords() );
-	}
+        $this->assertGreaterThan( 0, Statistic::totalRecords() );
+    }
 }

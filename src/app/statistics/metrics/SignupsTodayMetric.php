@@ -6,50 +6,50 @@ use infuse\Database;
 
 class SignupsTodayMetric extends AbstractStat
 {
-	function name()
-	{
-		return 'Signups Today';
-	}
+    public function name()
+    {
+        return 'Signups Today';
+    }
 
-	function granularity()
-	{
-		return STATISTIC_GRANULARITY_DAY;
-	}
+    public function granularity()
+    {
+        return STATISTIC_GRANULARITY_DAY;
+    }
 
-	function type()
-	{
-		return STATISTIC_TYPE_FLOW;
-	}
+    public function type()
+    {
+        return STATISTIC_TYPE_FLOW;
+    }
 
-	function span()
-	{
-		return 4;
-	}
+    public function span()
+    {
+        return 4;
+    }
 
-	function hasChart()
-	{
-		return true;
-	}
+    public function hasChart()
+    {
+        return true;
+    }
 
-	function hasDelta()
-	{
-		return true;
-	}
+    public function hasDelta()
+    {
+        return true;
+    }
 
-	function shouldBeCaptured()
-	{
-		return true;
-	}
+    public function shouldBeCaptured()
+    {
+        return true;
+    }
 
-	function value( $start, $end )
-	{
-		return (int)Database::select(
-			'Users',
-			'count(uid)',
-			[
-				'where' => [
-					'created_at >= ' . $start,
-					'created_at <= ' . $end ],
-				'single' => true ] );
-	}
+    public function value($start, $end)
+    {
+        return (int) Database::select(
+            'Users',
+            'count(uid)',
+            [
+                'where' => [
+                    'created_at >= ' . $start,
+                    'created_at <= ' . $end ],
+                'single' => true ] );
+    }
 }

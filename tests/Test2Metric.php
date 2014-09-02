@@ -4,41 +4,42 @@ use \app\statistics\metrics\AbstractStat;
 
 class Test2Metric extends AbstractStat
 {
-	function name()
-	{
-		return 'Test Statistic';
-	}
+    public function name()
+    {
+        return 'Test Statistic';
+    }
 
-	function granularity()
-	{
-		return STATISTIC_GRANULARITY_MONTH;
-	}
+    public function granularity()
+    {
+        return STATISTIC_GRANULARITY_MONTH;
+    }
 
-	function type()
-	{
-		return STATISTIC_TYPE_FLOW;
-	}
+    public function type()
+    {
+        return STATISTIC_TYPE_FLOW;
+    }
 
-	function hasChart()
-	{
-		return true;
-	}
+    public function hasChart()
+    {
+        return true;
+    }
 
-	function hasDelta()
-	{
-		return true;
-	}
+    public function hasDelta()
+    {
+        return true;
+    }
 
-	function shouldBeCaptured()
-	{
-		return true;
-	}
+    public function shouldBeCaptured()
+    {
+        return true;
+    }
 
-	function value( $start, $end )
-	{
-		if( $end < time() )
-			return 123;
+    public function value($start, $end)
+    {
+        if( $end < time() )
 
-		return 100;
-	}
+            return 123;
+
+        return 100;
+    }
 }
