@@ -13,11 +13,13 @@ namespace app\statistics;
 
 use infuse\Util;
 
-use App;
+use InjectApp;
 use app\statistics\libs\StatisticsHelper;
 
 class Controller
 {
+	use InjectApp;
+
 	public static $properties = [
 		'models' => [
 			'Statistic' ],
@@ -34,12 +36,10 @@ class Controller
 
 	public static $hasAdminView;
 
-	private $app;
 	private $viewsDir;
 
-	public function __construct(App $app)
+	public function __construct()
 	{
-		$this->app = $app;
 		$this->viewsDir = __DIR__ . '/views/';
 	}
 
