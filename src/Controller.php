@@ -13,12 +13,11 @@ namespace app\statistics;
 
 use infuse\Util;
 
-use InjectApp;
 use app\statistics\libs\StatisticsHelper;
 
 class Controller
 {
-	use InjectApp;
+	use \InjectApp;
 
 	public static $properties = [
 		'models' => [
