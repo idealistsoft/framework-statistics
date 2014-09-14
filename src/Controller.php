@@ -11,7 +11,7 @@
 
 namespace app\statistics;
 
-use infuse\Util;
+use infuse\Utility as U;
 
 use app\statistics\libs\StatisticsHelper;
 
@@ -64,7 +64,7 @@ class Controller
 
 				$k = $metric->key();
 
-				Util::array_set( $metrics, $section . '.' . $k, $metric->toArray() );
+				U::array_set( $metrics, $section . '.' . $k, $metric->toArray() );
 
 				if ( $metric->hasChart() ) {
 					$chartData[ $k ] = $metric->values();

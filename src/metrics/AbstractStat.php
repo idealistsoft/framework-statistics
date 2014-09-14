@@ -3,7 +3,7 @@
 namespace app\statistics\metrics;
 
 use infuse\Database;
-use infuse\Util;
+use infuse\Utility as U;
 
 use App;
 use app\statistics\models\Statistic;
@@ -120,7 +120,7 @@ abstract class AbstractStat
 	 */
     public function key()
     {
-        return Util::seoify( $this->name() );
+        return U::seoify( $this->name() );
     }
 
     ////////////////////////////
@@ -330,9 +330,9 @@ abstract class AbstractStat
             'hasChart' => $this->hasChart(),
             'span' => $this->span(),
             'value' => $value,
-            'abbreviated_value' => (is_numeric($value)) ? Util::number_abbreviate( round( $value, 2 ), 1 ) : $value,
+            'abbreviated_value' => (is_numeric($value)) ? U::number_abbreviate( round( $value, 2 ), 1 ) : $value,
             'delta' => $delta,
-            'abbreviated_delta' => (is_numeric($delta)) ? Util::number_abbreviate( round( $delta, 2 ), 1 ) : $delta,
+            'abbreviated_delta' => (is_numeric($delta)) ? U::number_abbreviate( round( $delta, 2 ), 1 ) : $delta,
         ];
     }
 
