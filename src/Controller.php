@@ -12,6 +12,7 @@
 namespace app\statistics;
 
 use infuse\Utility as U;
+use infuse\View;
 
 use app\statistics\libs\StatisticsHelper;
 
@@ -35,11 +36,11 @@ class Controller
 
 	public static $hasAdminView;
 
-	private $viewsDir;
+	static $viewsDir;
 
 	public function __construct()
 	{
-		$this->viewsDir = __DIR__ . '/views/';
+		self::$viewsDir = __DIR__ . '/views/';
 	}
 
 	public function adminHome($req, $res)
@@ -75,14 +76,14 @@ class Controller
 			}
 		}
 
-		$res->render( $this->viewsDir . 'admin/index', [
+		return new View('admin/index', [
 			'metrics' => $metrics,
 			'chartNames' => array_keys( $chartData ),
 			'chartData' => $chartData,
 			'chartGranularities' => $chartGranularities,
 			'chartLoadedIntervals' => $chartLoadedIntervals,
 			'title' => 'Statistics'
-		] );
+		]);
 	}
 
 	public function metric($req, $res)
@@ -98,8 +99,8 @@ class Controller
 		if( !$metric )
 			return $res->setCode( 404 );
 
-		return $res->setBodyJson( [
-			'data' => $metric->values( $req->query( 'start' ), $req->query( 'end' ) ) ] );
+		return $res->json([
+			'data' => $metric->values($req->query('start'), $req->query('end'))]);
 	}
 
 	public function cron($command)
