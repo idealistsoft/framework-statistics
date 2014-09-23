@@ -31,24 +31,24 @@ return  [
       'PhpVersion',
       'SignupsToday',
       'SiteMode',
-      'SiteSession',
+      'SessionAdapter',
       'SiteStatus',
       'SiteVersion',
-      'Users'
+      'TotalUsers'
     ],
     'dashboard' => [
       'Signup Funnel' => [
         'SignupsToday'
       ],
       'Usage' => [
-        'Users'
+        'TotalUsers'
       ],
       'Site' => [
         'SiteStatus',
         'SiteVersion',
         'PhpVersion',
         'SiteMode',
-        'SiteSession',
+        'SessionAdapter',
       ],
       'Database' => [
         'DatabaseSize',
