@@ -49,7 +49,7 @@ class StatisticsTest extends \PHPUnit_Framework_TestCase
 
     public function testKey()
     {
-        $this->assertEquals( 'test-statistic', $this->s->key() );
+        $this->assertEquals( 'test_statistic', $this->s->key() );
     }
 
     public function testComputeValue()

@@ -3,6 +3,7 @@
 namespace app\statistics\metrics;
 
 use infuse\Database;
+use infuse\Inflector;
 use infuse\Utility as U;
 
 use App;
@@ -120,7 +121,7 @@ abstract class AbstractStat
 	 */
     public function key()
     {
-        return U::seoify( $this->name() );
+        return Inflector::underscore($this->name());
     }
 
     ////////////////////////////

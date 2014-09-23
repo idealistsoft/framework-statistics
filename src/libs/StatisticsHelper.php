@@ -95,18 +95,10 @@ class StatisticsHelper
 	 */
     public static function getClassForKey($key, App $app)
     {
-        // TODO
-        // this is nasty in so many ways
+        $className = '\\app\\statistics\\metrics\\' . Inflector::camelize($key);
 
-        foreach ( glob( INFUSE_APP_DIR . '/statistics/metrics/*Metric.php' ) as $filename ) {
-            $className = '\\app\\statistics\\metrics\\' . str_replace( '.php', '', basename( $filename ) );
-
-            $metric = new $className( $app );
-
-            if( $metric->key() == $key )
-
-                return $metric;
-        }
+        if (class_exists($className))
+            return new $className($app);
 
         return false;
     }
