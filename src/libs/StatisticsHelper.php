@@ -97,7 +97,7 @@ class StatisticsHelper
 	 */
     public static function getClassForKey($key, App $app)
     {
-        $className = '\\app\\statistics\\metrics\\' . Inflector::camelize($key);
+        $className = '\\app\\statistics\\metrics\\' . Inflector::camelize($key) . 'Metric';
 
         if (class_exists($className))
             return new $className($app);
