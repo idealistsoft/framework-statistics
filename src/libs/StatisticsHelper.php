@@ -11,6 +11,8 @@
 
 namespace app\statistics\libs;
 
+use infuse\Inflector;
+
 use App;
 
 class StatisticsHelper
