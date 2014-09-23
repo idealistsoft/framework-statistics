@@ -103,7 +103,7 @@ class StatisticsTest extends \PHPUnit_Framework_TestCase
     {
         $expected = [
             'name' => 'Test Statistic',
-            'key' => 'test-statistic',
+            'key' => 'test_statistic',
             'granularity' => STATISTIC_GRANULARITY_DAY,
             'prefix' => '',
             'suffix' => '',
