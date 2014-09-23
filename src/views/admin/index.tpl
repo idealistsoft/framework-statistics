@@ -327,17 +327,18 @@ h3 {
 
 			var interval = chartIntervals[metric];
 
-			$.get('/statistics/' + metric,{
-				start: moment(interval[0]).unix(),
-				// add some time to interval so that the present value is included (if we selected an end date within 1/2 min. of present time)
-				end: moment(interval[1]).unix() + 1800}, function(result) {
+			$.get('/statistics/' + metric, {
+					start: moment(interval[0]).unix(),
+					// add some time to interval so that the present value is included (if we selected an end date within 1/2 min. of present time)
+					end: moment(interval[1]).unix() + 1800
+				}, function(result) {
 					if (result.data) {
 						chartData[metric] = result.data;
 						chartLoadedIntervals[metric] = interval;
 					}
 
 					drawChart(metric);
-			});
+				}, 'json');
 
 			return false;
 		} else {
