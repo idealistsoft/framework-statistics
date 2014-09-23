@@ -2,7 +2,7 @@
 
 namespace app\statistics\metrics;
 
-class SiteSessionMetric extends AbstractStat
+class SessionAdapterMetric extends AbstractStat
 {
     public function name()
     {

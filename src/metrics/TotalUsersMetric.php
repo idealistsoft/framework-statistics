@@ -4,7 +4,7 @@ namespace app\statistics\metrics;
 
 use infuse\Database;
 
-class UsersMetric extends AbstractStat
+class TotalUsersMetric extends AbstractStat
 {
     public function name()
     {
