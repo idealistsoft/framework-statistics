@@ -121,7 +121,9 @@ abstract class AbstractStat
 	 */
     public function key()
     {
-        return Inflector::underscore($this->name());
+        $key = str_replace(' ', '', $this->name());
+
+        return Inflector::underscore($key);
     }
 
     ////////////////////////////
