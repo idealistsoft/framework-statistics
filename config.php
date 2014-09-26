@@ -33,7 +33,7 @@ return  [
       'SiteMode',
       'SessionAdapter',
       'SiteStatus',
-      'SiteVersion',
+      'FrameworkVersion',
       'TotalUsers'
     ],
     'dashboard' => [
@@ -45,7 +45,7 @@ return  [
       ],
       'Site' => [
         'SiteStatus',
-        'SiteVersion',
+        'FrameworkVersion',
         'PhpVersion',
         'SiteMode',
         'SessionAdapter',

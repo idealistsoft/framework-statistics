@@ -2,11 +2,11 @@
 
 namespace app\statistics\metrics;
 
-class SiteVersionMetric extends AbstractStat
+class FrameworkVersionMetric extends AbstractStat
 {
     public function name()
     {
-        return 'Site Version';
+        return 'Framework Version';
     }
 
     public function granularity()
