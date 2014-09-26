@@ -41,10 +41,15 @@ class SiteVersionMetric extends AbstractStat
 
     public function value($start, $end)
     {
-        // load composer.json
-        $composer = json_decode( file_get_contents( INFUSE_BASE_DIR . '/composer.json' ) );
+        // load composer installed.json
+        $installed = json_decode(file_get_contents(INFUSE_BASE_DIR . '/vendor/composer/installed.json'));
 
-        // site version
-        return $composer->version;
+        // returns the version of the core framework package
+        foreach ($installed as $package) {
+            if ($package->name == 'idealistsoft/framework-bootstrap')
+                return $package->version;
+        }
+
+        return '';
     }
 }
