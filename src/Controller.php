@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @package infuse\framework
+ * @package framework-statistics
  * @author Jared King <j@jaredtking.com>
  * @link http://jaredtking.com
- * @version 0.1.16
- * @copyright 2013 Jared King
+ * @version 1.0.0
+ * @copyright 2014 Jared King
  * @license MIT
  */
 
@@ -18,131 +18,142 @@ use app\statistics\libs\StatisticsHelper;
 
 class Controller
 {
-	use \InjectApp;
+    use \InjectApp;
 
-	public static $properties = [
-		'models' => [
-			'Statistic' ],
-		'defaultHistoryMetric' => 'users.numUsers',
-		'routes' => [
-			'get /admin/statistics' => 'adminHome',
-			'get /admin/statistics/history' => 'adminHistoryDefault',
-			'get /admin/statistics/history/:metric' => 'adminHistory',
-			'get /statistics/:metric' => 'metric',
-			'get /statistics/captureMetrics' => 'captureMetrics',
-			'get /statistics/backfill' => 'backfill'
-		]
-	];
+    public static $properties = [
+        'models' => [
+            'Statistic' ],
+        'defaultHistoryMetric' => 'users.numUsers',
+        'routes' => [
+            'get /admin/statistics' => 'adminHome',
+            'get /admin/statistics/history' => 'adminHistoryDefault',
+            'get /admin/statistics/history/:metric' => 'adminHistory',
+            'get /statistics/:metric' => 'metric',
+            'get /statistics/captureMetrics' => 'captureMetrics',
+            'get /statistics/backfill' => 'backfill'
+        ]
+    ];
 
-	public static $hasAdminView;
+    public static $hasAdminView;
 
-	static $viewsDir;
+    public static $viewsDir;
 
-	public function __construct()
-	{
-		self::$viewsDir = __DIR__ . '/views/';
-	}
+    public function __construct()
+    {
+        self::$viewsDir = __DIR__ . '/views/';
+    }
 
-	public function adminHome($req, $res)
-	{
-		if( !$this->app[ 'user' ]->isAdmin() )
-			return $res->setCode( 401 );
+    public function adminHome($req, $res)
+    {
+        if (!$this->app['user']->isAdmin())
+            return $res->redirect('/login?redir=' . urlencode($req->basePath() . $req->path()));
 
-		$metrics = [];
-		$chartData = [];
-		$chartGranularities = [];
-		$chartLoadedIntervals = [];
+        $metrics = [];
+        $chartData = [];
+        $chartGranularities = [];
+        $chartLoadedIntervals = [];
 
-		$start = -7;
-		$end = 0;
+        $start = -7;
+        $end = 0;
 
-		$dashboard = (array) $this->app[ 'config' ]->get( 'statistics.dashboard' );
-		foreach ($dashboard as $section => $metricClasses) {
-			foreach ($metricClasses as $className) {
-				$className = '\\app\\statistics\\metrics\\' . $className . 'Metric';
+        $dashboard = (array) $this->app[ 'config' ]->get( 'statistics.dashboard' );
+        foreach ($dashboard as $section => $metricClasses) {
+            foreach ($metricClasses as $className) {
+                $className = '\\app\\statistics\\metrics\\' . $className . 'Metric';
 
-				$metric = new $className( $this->app );
+                $metric = new $className( $this->app );
 
-				$k = $metric->key();
+                $k = $metric->key();
 
-				U::array_set( $metrics, $section . '.' . $k, $metric->toArray() );
+                U::array_set( $metrics, $section . '.' . $k, $metric->toArray() );
 
-				if ( $metric->hasChart() ) {
-					$chartData[ $k ] = $metric->values();
-					$gName = $metric::$granularityNames[ $metric->granularity() ];
-					$chartGranularities[ $k ] = $gName;
-					$chartLoadedIntervals[ $k ] = 'last-7-' . $gName . 's';
-				}
-			}
-		}
+                if ( $metric->hasChart() ) {
+                    $chartData[ $k ] = $metric->values();
+                    $gName = $metric::$granularityNames[ $metric->granularity() ];
+                    $chartGranularities[ $k ] = $gName;
+                    $chartLoadedIntervals[ $k ] = 'last-7-' . $gName . 's';
+                }
+            }
+        }
 
-		return new View('admin/index', [
-			'metrics' => $metrics,
-			'chartNames' => array_keys( $chartData ),
-			'chartData' => $chartData,
-			'chartGranularities' => $chartGranularities,
-			'chartLoadedIntervals' => $chartLoadedIntervals,
-			'title' => 'Statistics'
-		]);
-	}
+        return new View('admin/index', [
+            'metrics' => $metrics,
+            'chartNames' => array_keys( $chartData ),
+            'chartData' => $chartData,
+            'chartGranularities' => $chartGranularities,
+            'chartLoadedIntervals' => $chartLoadedIntervals,
+            'title' => 'Statistics'
+        ]);
+    }
 
-	public function metric($req, $res)
-	{
-		if( !$req->isJson() )
-			return $res->setCode( 406 );
+    public function metric($req, $res)
+    {
+        if( !$req->isJson() )
 
-		if( !$this->app[ 'user' ]->isAdmin() )
-			return $res->setCode( 401 );
+            return $res->setCode(415);
 
-		$metric = StatisticsHelper::getClassForKey( $req->params( 'metric' ), $this->app );
+        if( !$this->app[ 'user' ]->isAdmin() )
 
-		if( !$metric )
-			return $res->setCode( 404 );
+            return $res->setCode(404);
 
-		return $res->json([
-			'data' => $metric->values($req->query('start'), $req->query('end'))]);
-	}
+        $metric = StatisticsHelper::getClassForKey( $req->params( 'metric' ), $this->app );
 
-	public function cron($command)
-	{
-		if ($command == 'capture-snapshot' || $command == 'capture-metrics') {
-			if ( StatisticsHelper::captureMetrics( $this->app ) ) {
-				echo "Successfully captured metrics\n";
-				return true;
-			} else {
-				echo "Failed to capture metrics\n";
-				return false;
-			}
-		}
-	}
+        if( !$metric )
 
-	public function captureMetrics($req, $res)
-	{
-		if( !$req->isCli() )
-			return $res->setCode( 404 );
+            return $res->setCode(404);
 
-		if ( StatisticsHelper::captureMetrics( $this->app ) ) {
-			echo "Successfully captured metrics\n";
-			return true;
-		} else {
-			echo "Failed to capture metrics\n";
-			return false;
-		}
-	}
+        return $res->json([
+            'data' => $metric->values($req->query('start'), $req->query('end'))]);
+    }
 
-	public function backfill($req, $res)
-	{
-		if( !$req->isCli() )
-			return $res->setCode( 404 );
+    public function cron($command)
+    {
+        if ($command == 'capture-snapshot' || $command == 'capture-metrics') {
+            if ( StatisticsHelper::captureMetrics( $this->app ) ) {
+                echo "Successfully captured metrics\n";
 
-		$n = (int) $req->cliArgs( 2 );
+                return true;
+            } else {
+                echo "Failed to capture metrics\n";
 
-		if ( StatisticsHelper::backfillMetrics( $n, $this->app ) ) {
-			echo "Successfully backfilled metrics\n";
-			return true;
-		} else {
-			echo "Failed to backfill metrics\n";
-			return false;
-		}
-	}
+                return false;
+            }
+        }
+    }
+
+    public function captureMetrics($req, $res)
+    {
+        if( !$req->isCli() )
+
+            return $res->setCode(404);
+
+        if ( StatisticsHelper::captureMetrics( $this->app ) ) {
+            echo "Successfully captured metrics\n";
+
+            return true;
+        } else {
+            echo "Failed to capture metrics\n";
+
+            return false;
+        }
+    }
+
+    public function backfill($req, $res)
+    {
+        if( !$req->isCli() )
+
+            return $res->setCode(404);
+
+        $n = (int) $req->cliArgs( 2 );
+
+        if ( StatisticsHelper::backfillMetrics( $n, $this->app ) ) {
+            echo "Successfully backfilled metrics\n";
+
+            return true;
+        } else {
+            echo "Failed to backfill metrics\n";
+
+            return false;
+        }
+    }
 }
