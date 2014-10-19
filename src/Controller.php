@@ -106,28 +106,12 @@ class Controller
             'data' => $metric->values($req->query('start'), $req->query('end'))]);
     }
 
-    public function cron($command)
+    public function captureMetrics($req = null, $res = null)
     {
-        if ($command == 'capture-snapshot' || $command == 'capture-metrics') {
-            if ( StatisticsHelper::captureMetrics( $this->app ) ) {
-                echo "Successfully captured metrics\n";
-
-                return true;
-            } else {
-                echo "Failed to capture metrics\n";
-
-                return false;
-            }
-        }
-    }
-
-    public function captureMetrics($req, $res)
-    {
-        if( !$req->isCli() )
-
+        if ($req && !$req->isCli())
             return $res->setCode(404);
 
-        if ( StatisticsHelper::captureMetrics( $this->app ) ) {
+        if (StatisticsHelper::captureMetrics($this->app)) {
             echo "Successfully captured metrics\n";
 
             return true;
