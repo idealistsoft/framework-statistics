@@ -11,7 +11,7 @@
 
 namespace app\statistics\libs;
 
-use infuse\Inflector;
+use ICanBoogie\Inflector;
 
 use App;
 
@@ -97,7 +97,7 @@ class StatisticsHelper
 	 */
     public static function getClassForKey($key, App $app)
     {
-        $className = '\\app\\statistics\\metrics\\' . Inflector::camelize($key) . 'Metric';
+        $className = '\\app\\statistics\\metrics\\' . Inflector::get()->camelize($key) . 'Metric';
 
         if (class_exists($className))
             return new $className($app);

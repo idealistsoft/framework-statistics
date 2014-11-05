@@ -2,8 +2,6 @@
 
 namespace app\statistics\metrics;
 
-use infuse\Database;
-
 use app\statistics\models\Statistic;
 
 class DatabaseSizeMetric extends AbstractStat
@@ -50,14 +48,11 @@ class DatabaseSizeMetric extends AbstractStat
 
     public function value($start, $end)
     {
-        // only calculate metric as of right now
-        $query = Database::sql("SHOW table STATUS");
+        $status = $this->app['db']->raw('SHOW table STATUS')->all();
 
-        $status = $query->fetchAll( \PDO::FETCH_ASSOC );
-
-        $dbsize = 0;
         // Calculate DB size by adding table size + index size:
-        foreach( $status as $row )
+        $dbsize = 0;
+        foreach ($status as $row)
             $dbsize += $row['Data_length'] + $row['Index_length'];
 
         return $dbsize;

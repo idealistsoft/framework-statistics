@@ -2,8 +2,6 @@
 
 namespace app\statistics\metrics;
 
-use infuse\Database;
-
 class DatabaseVersionMetric extends AbstractStat
 {
     public function name()
@@ -43,8 +41,6 @@ class DatabaseVersionMetric extends AbstractStat
 
     public function value($start, $end)
     {
-        $query = Database::sql( 'SELECT VERSION()' );
-
-        return $query->fetchColumn( 0 );
+        return $this->app['db']->select('VERSION()')->scalar();
     }
 }

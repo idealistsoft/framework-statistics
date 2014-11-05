@@ -2,8 +2,8 @@
 
 namespace app\statistics\metrics;
 
+use ICanBoogie\Inflector;
 use infuse\Database;
-use infuse\Inflector;
 use infuse\Utility as U;
 
 use App;
@@ -123,7 +123,7 @@ abstract class AbstractStat
     {
         $key = str_replace(' ', '', $this->name());
 
-        return Inflector::underscore($key);
+        return Inflector::get()->underscore($key);
     }
 
     ////////////////////////////

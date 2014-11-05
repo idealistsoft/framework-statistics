@@ -2,8 +2,6 @@
 
 namespace app\statistics\metrics;
 
-use infuse\Database;
-
 class DatabaseTablesMetric extends AbstractStat
 {
     public function name()
@@ -43,11 +41,6 @@ class DatabaseTablesMetric extends AbstractStat
 
     public function value($start, $end)
     {
-        // calculate metric as of right now
-        $query = Database::sql("SHOW table STATUS");
-
-        $status = $query->fetchAll( \PDO::FETCH_ASSOC );
-
-        return count( $status );
+        return count($this->app['db']->raw('SHOW table STATUS')->all());
     }
 }

@@ -2,8 +2,6 @@
 
 namespace app\statistics\metrics;
 
-use infuse\Database;
-
 class SignupsTodayMetric extends AbstractStat
 {
     public function name()
@@ -43,13 +41,7 @@ class SignupsTodayMetric extends AbstractStat
 
     public function value($start, $end)
     {
-        return (int) Database::select(
-            'Users',
-            'count(uid)',
-            [
-                'where' => [
-                    'created_at >= ' . $start,
-                    'created_at <= ' . $end ],
-                'single' => true ] );
+        return (int) $this->app['db']->select('COUNT(uid)')->from('Users')
+            ->where([['created_at', $end, '<='],['created_at', $start, '>=']])->scalar();
     }
 }
