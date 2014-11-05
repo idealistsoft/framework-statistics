@@ -26,5 +26,6 @@
 		"idealistsoft/framework-auth": "dev-master",
 		"satooshi/php-coveralls": "0.6.1",
 		"robmorgan/phinx": "~0.3"
-	}
+	},
+	"minimum-stability": "dev"
 }
