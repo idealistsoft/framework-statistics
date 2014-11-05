@@ -3,7 +3,6 @@
 namespace app\statistics\metrics;
 
 use ICanBoogie\Inflector;
-use infuse\Database;
 use infuse\Utility as U;
 
 use App;
@@ -226,14 +225,10 @@ abstract class AbstractStat
         if( $includePresent )
             $end = time();
 
-        $values = Database::select(
-            'Statistics',
-            'day,val',
-            [
-                'where' => [
-                    'metric' => $this->key(),
-                    "ts >= '$start'",
-                    "ts <= '$end'" ] ] );
+        $values = $this->app['db']->select('day,val')->from('Statistics')->where([
+            'metric' => $this->key(),
+            ['ts', $start, '>='],
+            ['ts', $end, '<=']])->all();
 
         // add present point
         if( $includePresent )
