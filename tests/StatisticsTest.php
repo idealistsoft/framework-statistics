@@ -1,7 +1,5 @@
 <?php
 
-use infuse\Database;
-
 use app\statistics\models\Statistic;
 use app\statistics\libs\StatisticsHelper;
 
@@ -26,9 +24,10 @@ class StatisticsTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         if ($this->dbTouched) {
-            Database::delete( 'Statistics', [ 'metric' => $this->s->key() ] );
+            $db = TestBootstrap::app('db');
+            $db->delete('Statistics')->where('metric', $this->s->key())->execute();
 
-            Database::delete( 'Statistics', [ 'metric' => $this->s2->key() ] );
+            $db->delete('Statistics')->where('metric', $this->s2->key())->execute();
         }
     }
 
