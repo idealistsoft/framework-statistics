@@ -13,7 +13,6 @@ namespace app\statistics;
 
 use infuse\Utility as U;
 use infuse\View;
-
 use app\statistics\libs\StatisticsHelper;
 
 class Controller
@@ -22,7 +21,7 @@ class Controller
 
     public static $properties = [
         'models' => [
-            'Statistic' ],
+            'Statistic', ],
         'defaultHistoryMetric' => 'users.numUsers',
         'routes' => [
             'get /admin/statistics' => 'adminHome',
@@ -30,8 +29,8 @@ class Controller
             'get /admin/statistics/history/:metric' => 'adminHistory',
             'get /statistics/:metric' => 'metric',
             'get /statistics/captureMetrics' => 'captureMetrics',
-            'get /statistics/backfill' => 'backfill'
-        ]
+            'get /statistics/backfill' => 'backfill',
+        ],
     ];
 
     public static $hasAdminView;
@@ -40,13 +39,14 @@ class Controller
 
     public function __construct()
     {
-        self::$viewsDir = __DIR__ . '/views/';
+        self::$viewsDir = __DIR__.'/views/';
     }
 
     public function adminHome($req, $res)
     {
-        if (!$this->app['user']->isAdmin())
-            return $res->redirect('/login?redir=' . urlencode($req->basePath() . $req->path()));
+        if (!$this->app['user']->isAdmin()) {
+            return $res->redirect('/login?redir='.urlencode($req->basePath().$req->path()));
+        }
 
         $metrics = [];
         $chartData = [];
@@ -56,29 +56,29 @@ class Controller
         $start = -7;
         $end = 0;
 
-        $dashboard = (array) $this->app[ 'config' ]->get( 'statistics.dashboard' );
+        $dashboard = (array) $this->app[ 'config' ]->get('statistics.dashboard');
         foreach ($dashboard as $section => $metricClasses) {
             foreach ($metricClasses as $className) {
-                $className = '\\app\\statistics\\metrics\\' . $className . 'Metric';
+                $className = '\\app\\statistics\\metrics\\'.$className.'Metric';
 
-                $metric = new $className( $this->app );
+                $metric = new $className($this->app);
 
                 $k = $metric->key();
 
-                U::array_set( $metrics, $section . '.' . $k, $metric->toArray() );
+                U::array_set($metrics, $section.'.'.$k, $metric->toArray());
 
-                if ( $metric->hasChart() ) {
+                if ($metric->hasChart()) {
                     $chartData[ $k ] = $metric->values();
                     $gName = $metric::$granularityNames[ $metric->granularity() ];
                     $chartGranularities[ $k ] = $gName;
-                    $chartLoadedIntervals[ $k ] = 'last-7-' . $gName . 's';
+                    $chartLoadedIntervals[ $k ] = 'last-7-'.$gName.'s';
                 }
             }
         }
 
         return new View('admin/index', [
             'metrics' => $metrics,
-            'chartNames' => array_keys( $chartData ),
+            'chartNames' => array_keys($chartData),
             'chartData' => $chartData,
             'chartGranularities' => $chartGranularities,
             'chartLoadedIntervals' => $chartLoadedIntervals,
@@ -88,28 +88,29 @@ class Controller
 
     public function metric($req, $res)
     {
-        if( !$req->isJson() )
-
+        if (!$req->isJson()) {
             return $res->setCode(415);
+        }
 
-        if( !$this->app[ 'user' ]->isAdmin() )
-
+        if (!$this->app[ 'user' ]->isAdmin()) {
             return $res->setCode(404);
+        }
 
-        $metric = StatisticsHelper::getClassForKey( $req->params( 'metric' ), $this->app );
+        $metric = StatisticsHelper::getClassForKey($req->params('metric'), $this->app);
 
-        if( !$metric )
-
+        if (!$metric) {
             return $res->setCode(404);
+        }
 
         return $res->json([
-            'data' => $metric->values($req->query('start'), $req->query('end'))]);
+            'data' => $metric->values($req->query('start'), $req->query('end')), ]);
     }
 
     public function captureMetrics($req = null, $res = null)
     {
-        if ($req && !$req->isCli())
+        if ($req && !$req->isCli()) {
             return $res->setCode(404);
+        }
 
         if (StatisticsHelper::captureMetrics($this->app)) {
             echo "Successfully captured metrics\n";
@@ -124,13 +125,13 @@ class Controller
 
     public function backfill($req, $res)
     {
-        if( !$req->isCli() )
-
+        if (!$req->isCli()) {
             return $res->setCode(404);
+        }
 
-        $n = (int) $req->cliArgs( 2 );
+        $n = (int) $req->cliArgs(2);
 
-        if ( StatisticsHelper::backfillMetrics( $n, $this->app ) ) {
+        if (StatisticsHelper::backfillMetrics($n, $this->app)) {
             echo "Successfully backfilled metrics\n";
 
             return true;

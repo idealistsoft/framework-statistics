@@ -36,9 +36,9 @@ class TestMetric extends AbstractStat
 
     public function value($start, $end)
     {
-        if( $end < time() )
-
+        if ($end < time()) {
             return 1023;
+        }
 
         return 1000;
     }

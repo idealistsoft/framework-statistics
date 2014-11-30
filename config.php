@@ -8,8 +8,8 @@ return  [
   ],
   'modules' => [
     'middleware' => [
-      'auth'
-    ]
+      'auth',
+    ],
   ],
   'database' => [
     'type' => 'mysql',
@@ -21,7 +21,7 @@ return  [
   'sessions' => [
     'enabled' => true,
     'adapter' => 'database',
-    'lifetime' => 86400
+    'lifetime' => 86400,
   ],
   'statistics' => [
     'metrics' => [
@@ -34,14 +34,14 @@ return  [
       'SessionAdapter',
       'SiteStatus',
       'FrameworkVersion',
-      'TotalUsers'
+      'TotalUsers',
     ],
     'dashboard' => [
       'Signup Funnel' => [
-        'SignupsToday'
+        'SignupsToday',
       ],
       'Usage' => [
-        'TotalUsers'
+        'TotalUsers',
       ],
       'Site' => [
         'SiteStatus',
@@ -53,8 +53,8 @@ return  [
       'Database' => [
         'DatabaseSize',
         'DatabaseVersion',
-        'DatabaseTables'
-      ]
-    ]
+        'DatabaseTables',
+      ],
+    ],
   ]
 ];

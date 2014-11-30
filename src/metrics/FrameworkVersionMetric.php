@@ -42,12 +42,13 @@ class FrameworkVersionMetric extends AbstractStat
     public function value($start, $end)
     {
         // load composer installed.json
-        $installed = json_decode(file_get_contents(INFUSE_BASE_DIR . '/vendor/composer/installed.json'));
+        $installed = json_decode(file_get_contents(INFUSE_BASE_DIR.'/vendor/composer/installed.json'));
 
         // returns the version of the core framework package
         foreach ($installed as $package) {
-            if ($package->name == 'idealistsoft/framework-bootstrap')
+            if ($package->name == 'idealistsoft/framework-bootstrap') {
                 return $package->version;
+            }
         }
 
         return '';

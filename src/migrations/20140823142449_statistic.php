@@ -9,12 +9,12 @@ class statistic extends AbstractMigration
      */
     public function change()
     {
-        if ( !$this->hasTable( 'Statistics' ) ) {
-            $table = $this->table( 'Statistics', [ 'id' => false, 'primary_key' => [ 'metric', 'day' ] ] );
-            $table->addColumn( 'metric', 'string', [ 'length' => 100 ] )
-                  ->addColumn( 'day', 'string', [ 'length' => 10 ] )
-                  ->addColumn( 'val', 'string' )
-                  ->addColumn( 'ts', 'integer')
+        if (!$this->hasTable('Statistics')) {
+            $table = $this->table('Statistics', [ 'id' => false, 'primary_key' => [ 'metric', 'day' ] ]);
+            $table->addColumn('metric', 'string', [ 'length' => 100 ])
+                  ->addColumn('day', 'string', [ 'length' => 10 ])
+                  ->addColumn('val', 'string')
+                  ->addColumn('ts', 'integer')
                   ->create();
         }
     }
@@ -24,7 +24,6 @@ class statistic extends AbstractMigration
      */
     public function up()
     {
-
     }
 
     /**
@@ -32,6 +31,5 @@ class statistic extends AbstractMigration
      */
     public function down()
     {
-
     }
 }

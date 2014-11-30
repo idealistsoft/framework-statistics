@@ -36,9 +36,9 @@ class Test2Metric extends AbstractStat
 
     public function value($start, $end)
     {
-        if( $end < time() )
-
+        if ($end < time()) {
             return 123;
+        }
 
         return 100;
     }

@@ -52,8 +52,9 @@ class DatabaseSizeMetric extends AbstractStat
 
         // Calculate DB size by adding table size + index size:
         $dbsize = 0;
-        foreach ($status as $row)
+        foreach ($status as $row) {
             $dbsize += $row['Data_length'] + $row['Index_length'];
+        }
 
         return $dbsize;
     }
@@ -61,12 +62,12 @@ class DatabaseSizeMetric extends AbstractStat
     public function computeDelta()
     {
         // get metric from yesterday
-        $yesterdaysDate = date( 'Y-m-d', strtotime( 'yesterday' ) );
+        $yesterdaysDate = date('Y-m-d', strtotime('yesterday'));
 
-        $stat = Statistic::findOne( [
+        $stat = Statistic::findOne([
             'where' => [
                 'metric' => $this->key(),
-                'day' => $yesterdaysDate ] ] );
+                'day' => $yesterdaysDate, ], ]);
 
         $previous = ($stat) ? $stat->val : 0;
 

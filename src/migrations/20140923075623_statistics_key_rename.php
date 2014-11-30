@@ -15,7 +15,7 @@ class StatisticsKeyRename extends AbstractMigration
             $metric = $row['metric'];
             $metric = str_replace('-', '_', $metric);
 
-            $this->execute('UPDATE Statistics SET metric = "' . $metric . '" WHERE metric = "' . $row['metric'] . '" AND day = "' . $row['day'] . '"');
+            $this->execute('UPDATE Statistics SET metric = "'.$metric.'" WHERE metric = "'.$row['metric'].'" AND day = "'.$row['day'].'"');
         }
     }
 
@@ -24,6 +24,5 @@ class StatisticsKeyRename extends AbstractMigration
      */
     public function down()
     {
-
     }
 }

@@ -42,6 +42,6 @@ class SignupsTodayMetric extends AbstractStat
     public function value($start, $end)
     {
         return (int) $this->app['db']->select('COUNT(uid)')->from('Users')
-            ->where([['created_at', $end, '<='],['created_at', $start, '>=']])->scalar();
+            ->where([['created_at', $end, '<='], ['created_at', $start, '>=']])->scalar();
     }
 }

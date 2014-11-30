@@ -8,13 +8,13 @@ class Statistic extends Model
 {
     static $properties = [
         'metric' => [
-            'type' => 'string' ],
+            'type' => 'string', ],
         'day' => [
-            'type' => 'number' ],
+            'type' => 'number', ],
         'val' => [
-            'type' => 'string' ],
+            'type' => 'string', ],
         'ts' => [
-            'type' => 'date' ]
+            'type' => 'date', ],
     ];
 
     public static function idProperty()
@@ -30,11 +30,11 @@ class Statistic extends Model
     public function preCreateHook(&$data)
     {
         // calculate timestamp from supplied date
-        if ( isset( $data[ 'day' ] ) ) {
-            $date = explode( '-', $data[ 'day' ] );
-            list( $year, $month, $day ) = $date;
+        if (isset($data[ 'day' ])) {
+            $date = explode('-', $data[ 'day' ]);
+            list($year, $month, $day) = $date;
 
-            $data[ 'ts' ] = mktime( 0, 0, 0, $month, $day, $year );
+            $data[ 'ts' ] = mktime(0, 0, 0, $month, $day, $year);
         }
 
         return true;
