@@ -2,6 +2,8 @@
 
 namespace app\statistics\metrics;
 
+use infuse\Utility as U;
+
 class TotalUsersMetric extends AbstractStat
 {
     public function name()
@@ -42,6 +44,6 @@ class TotalUsersMetric extends AbstractStat
     public function value($start, $end)
     {
         return (int) $this->app['db']->select('COUNT(uid)')->from('Users')
-            ->where('created_at', $end, '<=')->scalar();
+            ->where('created_at', U::unixToDb($end), '<=')->scalar();
     }
 }
