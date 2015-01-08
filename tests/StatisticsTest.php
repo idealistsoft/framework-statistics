@@ -17,14 +17,14 @@ class StatisticsTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->s = new TestMetric(TestBootstrap::app());
-        $this->s2 = new Test2Metric(TestBootstrap::app());
+        $this->s = new TestMetric(Test::$app);
+        $this->s2 = new Test2Metric(Test::$app);
     }
 
     public function tearDown()
     {
         if ($this->dbTouched) {
-            $db = TestBootstrap::app('db');
+            $db = Test::$app['db'];
             $db->delete('Statistics')->where('metric', $this->s->key())->execute();
 
             $db->delete('Statistics')->where('metric', $this->s2->key())->execute();
@@ -139,7 +139,7 @@ class StatisticsTest extends \PHPUnit_Framework_TestCase
 
     public function testMetricClasses()
     {
-        $classes = StatisticsHelper::metricClasses(TestBootstrap::app());
+        $classes = StatisticsHelper::metricClasses(Test::$app);
 
         $this->assertGreaterThan(2, count($classes));
 
@@ -150,7 +150,7 @@ class StatisticsTest extends \PHPUnit_Framework_TestCase
 
     public function testCaptureMetrics()
     {
-        $this->assertTrue(StatisticsHelper::captureMetrics(TestBootstrap::app()));
+        $this->assertTrue(StatisticsHelper::captureMetrics(Test::$app));
 
         $this->assertGreaterThan(0, Statistic::totalRecords());
     }
