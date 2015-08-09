@@ -1,10 +1,12 @@
 <?php
 
 /**
- * @package framework-statistics
  * @author Jared King <j@jaredtking.com>
+ *
  * @link http://jaredtking.com
+ *
  * @version 1.0.0
+ *
  * @copyright 2014 Jared King
  * @license MIT
  */
@@ -23,14 +25,6 @@ class Controller
         'models' => [
             'Statistic', ],
         'defaultHistoryMetric' => 'users.numUsers',
-        'routes' => [
-            'get /admin/statistics' => 'adminHome',
-            'get /admin/statistics/history' => 'adminHistoryDefault',
-            'get /admin/statistics/history/:metric' => 'adminHistory',
-            'get /statistics/:metric' => 'metric',
-            'get /statistics/captureMetrics' => 'captureMetrics',
-            'get /statistics/backfill' => 'backfill',
-        ],
     ];
 
     public static $hasAdminView;
@@ -40,6 +34,16 @@ class Controller
     public function __construct()
     {
         self::$viewsDir = __DIR__.'/views/';
+    }
+
+    public function middleware($req, $res)
+    {
+        $this->app->get('/admin/statistics', 'adminHome')
+                  ->get('/admin/statistics/history', 'adminHistoryDefault')
+                  ->get('/admin/statistics/history/:metric', 'adminHistory')
+                  ->get('/statistics/:metric', 'metric')
+                  ->get('/statistics/captureMetrics', 'captureMetrics')
+                  ->get('/statistics/backfill', 'backfill');
     }
 
     public function adminHome($req, $res)
@@ -82,7 +86,7 @@ class Controller
             'chartData' => $chartData,
             'chartGranularities' => $chartGranularities,
             'chartLoadedIntervals' => $chartLoadedIntervals,
-            'title' => 'Statistics'
+            'title' => 'Statistics',
         ]);
     }
 

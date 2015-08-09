@@ -9,6 +9,7 @@ return  [
   'modules' => [
     'middleware' => [
       'auth',
+      'statistics',
     ],
   ],
   'database' => [
@@ -56,5 +57,5 @@ return  [
         'DatabaseTables',
       ],
     ],
-  ]
+  ],
 ];
