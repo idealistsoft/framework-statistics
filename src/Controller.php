@@ -38,12 +38,12 @@ class Controller
 
     public function middleware($req, $res)
     {
-        $this->app->get('/admin/statistics', 'adminHome')
-                  ->get('/admin/statistics/history', 'adminHistoryDefault')
-                  ->get('/admin/statistics/history/:metric', 'adminHistory')
-                  ->get('/statistics/:metric', 'metric')
-                  ->get('/statistics/captureMetrics', 'captureMetrics')
-                  ->get('/statistics/backfill', 'backfill');
+        $this->app->get('/admin/statistics', ['statistics\\Controller', 'adminHome'])
+                  ->get('/admin/statistics/history', ['statistics\\Controller', 'adminHistoryDefault'])
+                  ->get('/admin/statistics/history/:metric', ['statistics\\Controller', 'adminHistory'])
+                  ->get('/statistics/:metric', ['statistics\\Controller', 'metric'])
+                  ->get('/statistics/captureMetrics', ['statistics\\Controller', 'captureMetrics'])
+                  ->get('/statistics/backfill', ['statistics\\Controller', 'backfill']);
     }
 
     public function adminHome($req, $res)
