@@ -2,7 +2,7 @@
 
 namespace app\statistics\metrics;
 
-use infuse\Utility as U;
+use Infuse\Utility as U;
 
 class TotalUsersMetric extends AbstractStat
 {

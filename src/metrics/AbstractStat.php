@@ -3,7 +3,7 @@
 namespace app\statistics\metrics;
 
 use ICanBoogie\Inflector;
-use infuse\Utility as U;
+use Infuse\Utility as U;
 use App;
 use app\statistics\models\Statistic;
 
@@ -55,7 +55,7 @@ abstract class AbstractStat
     abstract public function granularity();
 
     /**
-     * Gets the type of statitics
+     * Gets the type of statitics.
      *
      * @return int
      */
@@ -64,26 +64,26 @@ abstract class AbstractStat
     /**
      * Returns true if the metric has a chart.
      *
-     * @return boolean
+     * @return bool
      */
     abstract public function hasChart();
 
     /**
      * Returns true if a delta can be computed for the metric.
      *
-     * @return boolean
+     * @return bool
      */
     abstract public function hasDelta();
 
     /**
-     * Returns true if the metric should be captured
+     * Returns true if the metric should be captured.
      *
-     * @return boolean
+     * @return bool
      */
     abstract public function shouldBeCaptured();
 
     /**
-     * Gets the prefix for metric values being displayed (i.e. '$')
+     * Gets the prefix for metric values being displayed (i.e. '$').
      *
      * @return string
      */
@@ -93,7 +93,7 @@ abstract class AbstractStat
     }
 
     /**
-     * Gets the suffix for metric values being displayed (i.e. ' users')
+     * Gets the suffix for metric values being displayed (i.e. ' users').
      *
      * @return string
      */
@@ -103,7 +103,7 @@ abstract class AbstractStat
     }
 
     /**
-     * Returns how many columns the metric should span (out of 12)
+     * Returns how many columns the metric should span (out of 12).
      *
      * @return int
      */
@@ -113,7 +113,7 @@ abstract class AbstractStat
     }
 
     /**
-     * Computes the canonical name used for this metric
+     * Computes the canonical name used for this metric.
      *
      * @return string
      */
@@ -129,7 +129,7 @@ abstract class AbstractStat
     ////////////////////////////
 
     /**
-     * Computes (and caches) the value of the metric over the specified period
+     * Computes (and caches) the value of the metric over the specified period.
      *
      * @param array $period [ start, end ]
      *
@@ -153,7 +153,7 @@ abstract class AbstractStat
     }
 
     /**
-     * Computes (no cache) the value of the metric over the specified period
+     * Computes (no cache) the value of the metric over the specified period.
      *
      * @param int $start starting timestamp for the period
      * @param int $end   ending timestamp for the period
@@ -163,7 +163,7 @@ abstract class AbstractStat
     abstract public function value($start, $end);
 
     /**
-     * Calculates the delta between the current value and the previous value
+     * Calculates the delta between the current value and the previous value.
      *
      * @return number
      */
@@ -249,7 +249,7 @@ abstract class AbstractStat
     /**
      * Checks if the metric needs a value captured for the newest completed period.
      *
-     * @return boolean
+     * @return bool
      */
     public function needsToBeCaptured()
     {
@@ -271,11 +271,11 @@ abstract class AbstractStat
 
     /**
      * Saves the Nth previous period. Creates the statistic entry
-     * if it does not exist, otherwise overwrites the previous value
+     * if it does not exist, otherwise overwrites the previous value.
      *
      * @param int $n nth previous period to save
      *
-     * @return boolean
+     * @return bool
      */
     public function savePeriod($n = 1)
     {
@@ -293,7 +293,7 @@ abstract class AbstractStat
         $d = date('Y-m-d', $period[ 'start' ]);
 
         // save the value
-        $stat = new Statistic([ $this->key(), $d ]);
+        $stat = new Statistic([$this->key(), $d]);
         if (!$stat->exists()) {
             $stat = new Statistic();
 
@@ -339,7 +339,7 @@ abstract class AbstractStat
 
     /**
      * Returns the start and end timestamps for the nth-previous period
-     * since the current period. 0 will return the current period
+     * since the current period. 0 will return the current period.
      *
      * @param int $n
      *
@@ -359,7 +359,7 @@ abstract class AbstractStat
         $i = $n;
         while ($i > 0) {
             $start = $this->startOfDay(strtotime('-1 '.$interval, $start));
-            $i--;
+            --$i;
         }
 
         // the end will be the start + 1 period - 1 second
@@ -367,12 +367,12 @@ abstract class AbstractStat
 
         return [
             'start' => $start,
-            'end' => $end ];
+            'end' => $end, ];
     }
 
     /**
      * Gets the interval string for this metric based on the
-     * granularity
+     * granularity.
      *
      * @return string
      */

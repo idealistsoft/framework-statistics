@@ -1,14 +1,15 @@
 <?php
 
 /**
- * @package infuse\framework
  * @author Jared King <j@jaredtking.com>
+ *
  * @link http://jaredtking.com
+ *
  * @version 0.1.16
+ *
  * @copyright 2013 Jared King
  * @license MIT
  */
-
 namespace app\statistics\libs;
 
 use ICanBoogie\Inflector;
@@ -17,7 +18,7 @@ use App;
 class StatisticsHelper
 {
     /**
-     * Returns all the classes of available metrics
+     * Returns all the classes of available metrics.
      *
      * @param App $app
      *
@@ -37,11 +38,11 @@ class StatisticsHelper
     }
 
     /**
-     * Captures each metric that needs to be captured at this time
+     * Captures each metric that needs to be captured at this time.
      *
      * @param App $app
      *
-     * @return boolean
+     * @return bool
      */
     public static function captureMetrics(App $app)
     {
@@ -59,12 +60,12 @@ class StatisticsHelper
     }
 
     /**
-     * Backfills all the metrics for N previous periods
+     * Backfills all the metrics for N previous periods.
      *
      * @param int $n   number of previous periods to backfill
      * @param App $app
      *
-     * @return boolean
+     * @return bool
      */
     public static function backfillMetrics($n, App $app)
     {
@@ -81,7 +82,7 @@ class StatisticsHelper
             while ($i <= $n) {
                 $success = $metric->savePeriod($i) && $success;
 
-                $i++;
+                ++$i;
             }
         }
 
@@ -89,7 +90,7 @@ class StatisticsHelper
     }
 
     /**
-     * Looks up the metric class for a given key
+     * Looks up the metric class for a given key.
      *
      * @param string $key
      * @param App    $app

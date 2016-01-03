@@ -10,11 +10,10 @@
  * @copyright 2014 Jared King
  * @license MIT
  */
-
 namespace app\statistics;
 
-use infuse\Utility as U;
-use infuse\View;
+use Infuse\Utility as U;
+use Infuse\View;
 use app\statistics\libs\StatisticsHelper;
 
 class Controller

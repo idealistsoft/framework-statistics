@@ -2,11 +2,11 @@
 
 namespace app\statistics\models;
 
-use infuse\Model;
+use Infuse\Model;
 
 class Statistic extends Model
 {
-    static $properties = [
+    public static $properties = [
         'metric' => [
             'type' => 'string', ],
         'day' => [
@@ -19,7 +19,7 @@ class Statistic extends Model
 
     public static function idProperty()
     {
-        return [ 'metric', 'day' ];
+        return ['metric', 'day'];
     }
 
     protected function hasPermission($permission, Model $requester)
