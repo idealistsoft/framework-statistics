@@ -12,13 +12,14 @@
  */
 namespace app\statistics;
 
+use Infuse\HasApp;
 use Infuse\Utility as U;
 use Infuse\View;
 use app\statistics\libs\StatisticsHelper;
 
 class Controller
 {
-    use \InjectApp;
+    use HasApp;
 
     public static $properties = [
         'models' => [

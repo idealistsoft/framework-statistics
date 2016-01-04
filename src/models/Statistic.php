@@ -2,9 +2,10 @@
 
 namespace app\statistics\models;
 
-use Infuse\Model;
+use Pulsar\ACLModel;
+use Pulsar\Model;
 
-class Statistic extends Model
+class Statistic extends ACLModel
 {
     public static $properties = [
         'metric' => [

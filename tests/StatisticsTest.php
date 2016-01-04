@@ -2,8 +2,9 @@
 
 use app\statistics\models\Statistic;
 use app\statistics\libs\StatisticsHelper;
+use Infuse\Test;
 
-class StatisticsTest extends \PHPUnit_Framework_TestCase
+class StatisticsTest extends PHPUnit_Framework_TestCase
 {
     public $s;
     public $s2;
@@ -56,11 +57,11 @@ class StatisticsTest extends \PHPUnit_Framework_TestCase
         $period = $this->s->nthPreviousPeriod();
         $lastPeriod = $this->s->nthPreviousPeriod(1);
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 10; ++$i) {
             $this->assertEquals(1000, $this->s->computeValue($period));
         }
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 10; ++$i) {
             $this->assertEquals(1023, $this->s->computeValue($lastPeriod));
         }
     }

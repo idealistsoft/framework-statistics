@@ -3,8 +3,14 @@
 /* This configuration is used to run the tests */
 
 return  [
-  'site' => [
+  'app' => [
     'salt' => 'replacewithrandomstring',
+  ],
+  'services' => [
+    'auth' => 'App\Auth\Services\Auth',
+    'db' => 'Infuse\Services\Database',
+    'model_driver' => 'Infuse\Services\ModelDriver',
+    'pdo' => 'Infuse\Services\Pdo',
   ],
   'modules' => [
     'middleware' => [
